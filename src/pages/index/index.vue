@@ -17,7 +17,7 @@
     <form class="form-container">
       <input type="text" class="form-control" v-model="motto" placeholder="v-model" />
       <input type="text" class="form-control" v-model.lazy="motto" placeholder="v-model.lazy" />
-      <button open-type="getUserInfo"  @getuserinfo="bindGetUserInfo" @click="login">获取用户信息</button>
+      <button open-type="getUserInfo"  @getuserinfo="bindGetUserInfo">获取用户信息</button>
     </form>
   </div>
 </template>
@@ -40,7 +40,7 @@ export default {
   methods: {
     bindGetUserInfo (e) {
 
-    console.log(e.mp.detail.userInfo)
+    this.userInfo=e.mp.detail.userInfo;
   },
     bindViewTap() {
       const url = "../logs/main";
