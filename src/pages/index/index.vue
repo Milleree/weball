@@ -1,5 +1,5 @@
 <template>
-  <div class="container" @click="clickHandle('test click', $event)">
+  <div class="container" >
 
     <div class="userinfo" @click="bindViewTap">
       <img class="userinfo-avatar" v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" background-size="cover" />
@@ -17,19 +17,20 @@
     <form class="form-container">
       <input type="text" class="form-control" v-model="motto" placeholder="v-model" />
       <input type="text" class="form-control" v-model.lazy="motto" placeholder="v-model.lazy" />
+      <button open-type="getUserInfo"  @getuserinfo="bindGetUserInfo" @click="login">获取用户信息</button>
     </form>
   </div>
 </template>
 
 <script>
-import card from '@/components/card'
+import card from "@/components/card";
 
 export default {
-  data () {
+  data() {
     return {
-      motto: 'Hello World',
+      motto: "Hello World",
       userInfo: {}
-    }
+    };
   },
 
   components: {
@@ -37,32 +38,40 @@ export default {
   },
 
   methods: {
-    bindViewTap () {
-      const url = '../logs/main'
-      wx.navigateTo({ url })
+    bindGetUserInfo (e) {
+
+    console.log(e.mp.detail.userInfo)
+  },
+    bindViewTap() {
+      const url = "../logs/main";
+      wx.navigateTo({ url });
     },
-    getUserInfo () {
+    login() {
+      console.log(this.userInfo);
+      wx.getUserInfo({
+        success :(res)=>{
+          console.log(1)
+          this.userInfo = res.userInfo;
+        },
+        fail (res){
+           console.log(res)
+        }
+      });
+    },
+    getUserInfo() {
       // 调用登录接口
       wx.login({
-        success: () => {
-          wx.getUserInfo({
-            success: (res) => {
-              this.userInfo = res.userInfo
-            }
-          })
-        }
-      })
-    },
-    clickHandle (msg, ev) {
-      console.log('clickHandle:', msg, ev)
+        success: () => {}
+      });
     }
   },
+  created() {
+    wx.openSetting(
 
-  created () {
-    // 调用应用实例的方法获取全局数据
-    this.getUserInfo()
+    )
   }
-}
+  
+};
 </script>
 
 <style scoped>
@@ -93,5 +102,4 @@ export default {
   margin-bottom: 5px;
   border: 1px solid #ccc;
 }
-
 </style>
